@@ -1,0 +1,30 @@
+{
+  "now": "2026-11-20T12:00:00.000Z",
+  "claude": {
+    "input": 400,
+    "output": 4110,
+    "cacheRead": 2000,
+    "cacheWrite": 10,
+    "total": 6520,
+    "records": 3
+  },
+  "claudeDup": {
+    "dedupedTotal": 60,
+    "naiveInWindowTotal": 80
+  },
+  "codex": {
+    "input": 150,
+    "output": 50,
+    "cacheRead": 20,
+    "cacheWrite": 0,
+    "total": 200,
+    "records": 2,
+    "finalCumulative": 200
+  },
+  "longClaudeChars": 40960,
+  "longCodexChars": 30720,
+  "sessionIds": {
+    "claude": "11111111-1111-4111-8111-111111111111",
+    "codex": "22222222-2222-4222-8222-222222222222"
+  }
+}

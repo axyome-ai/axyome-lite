@@ -1,0 +1,4 @@
+{"kind":0,"v":{"version":3,"requesterUsername":"tester","creationDate":1795158000000,"requests":[]}}
+{"kind":2,"k":["requests"],"v":[{"requestId":"request-1","timestamp":1795158000000,"modelId":"copilot/test-model","message":{"text":"How do I read a file in Node?"},"response":[]}]}
+{"kind":1,"k":["requests",0,"response"],"v":[{"value":"Use fs.readFileSync for small files."},{"kind":"thinking","value":"hidden reasoning"},{"value":{"value":" Use streams for large ones."}}]}
+{"kind":2,"k":["requests"],"v":[{"requestId":"request-2","timestamp":1795158060000,"message":{"text":"Thanks"},"response":[{"value":"You are welcome."}]}]}

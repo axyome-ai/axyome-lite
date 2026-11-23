@@ -1,0 +1,41 @@
+{
+  "version": 3,
+  "requesterUsername": "tester",
+  "creationDate": 1795158000000,
+  "requests": [
+    {
+      "requestId": "request-1",
+      "timestamp": 1795158000000,
+      "modelId": "copilot/test-model",
+      "message": {
+        "text": "How do I read a file in Node?"
+      },
+      "response": [
+        {
+          "value": "Use fs.readFileSync for small files."
+        },
+        {
+          "kind": "thinking",
+          "value": "hidden reasoning"
+        },
+        {
+          "value": {
+            "value": " Use streams for large ones."
+          }
+        }
+      ]
+    },
+    {
+      "requestId": "request-2",
+      "timestamp": 1795158060000,
+      "message": {
+        "text": "Thanks"
+      },
+      "response": [
+        {
+          "value": "You are welcome."
+        }
+      ]
+    }
+  ]
+}

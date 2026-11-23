@@ -1,0 +1,222 @@
+{
+  "name": "axyome-lite",
+  "displayName": "Axyome Lite — Copilot, Claude Code & Codex Chat History & Export",
+  "description": "Find where Copilot, Claude Code and Codex keep your chats, open any chat, export it to Markdown, and see your chats and tokens at a glance. Local only, no account, open source.",
+  "version": "0.1.0",
+  "publisher": "axyome-ai",
+  "license": "MIT",
+  "icon": "resources/icon-128.png",
+  "homepage": "https://axyome.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/axyome-ai/axyome-lite"
+  },
+  "bugs": {
+    "url": "https://github.com/axyome-ai/axyome-lite/issues"
+  },
+  "engines": {
+    "vscode": "^1.90.0",
+    "node": ">=18"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Other"
+  ],
+  "keywords": [
+    "copilot chat history",
+    "claude code history",
+    "codex history",
+    "chat history",
+    "export chat",
+    "export copilot chat",
+    "copilot export",
+    "markdown export",
+    "claude code usage",
+    "token usage",
+    "claude code sessions",
+    "copilot",
+    "claude code",
+    "codex",
+    "history",
+    "sessions",
+    "markdown"
+  ],
+  "main": "./dist/extension.js",
+  "bin": {
+    "axyome-lite": "./dist/cli.js"
+  },
+  "files": [
+    "dist/extension.js",
+    "dist/cli.js",
+    "resources/icon-128.png",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "activationEvents": [],
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "id": "axyomeLite.chats",
+          "name": "Chats (Axyome Lite)"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "axyomeLite.showChats",
+        "title": "Show my chats",
+        "category": "Axyome Lite"
+      },
+      {
+        "command": "axyomeLite.whereAreMyChats",
+        "title": "Where are my chats?",
+        "category": "Axyome Lite",
+        "icon": "$(question)"
+      },
+      {
+        "command": "axyomeLite.openConversation",
+        "title": "Open chat",
+        "category": "Axyome Lite"
+      },
+      {
+        "command": "axyomeLite.exportConversation",
+        "title": "Export chat to Markdown…",
+        "category": "Axyome Lite"
+      },
+      {
+        "command": "axyomeLite.copyConversation",
+        "title": "Copy chat as Markdown",
+        "category": "Axyome Lite"
+      },
+      {
+        "command": "axyomeLite.searchAllChats",
+        "title": "Search all chats (Axyome XM)",
+        "category": "Axyome Lite",
+        "icon": "$(search)"
+      },
+      {
+        "command": "axyomeLite.showDashboard",
+        "title": "My chats",
+        "category": "Axyome Lite",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "axyomeLite.refresh",
+        "title": "Refresh",
+        "category": "Axyome Lite",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "axyomeLite.refresh",
+          "when": "view == axyomeLite.chats",
+          "group": "navigation@1"
+        },
+        {
+          "command": "axyomeLite.showDashboard",
+          "when": "view == axyomeLite.chats",
+          "group": "navigation@2"
+        },
+        {
+          "command": "axyomeLite.whereAreMyChats",
+          "when": "view == axyomeLite.chats",
+          "group": "navigation@3"
+        },
+        {
+          "command": "axyomeLite.searchAllChats",
+          "when": "view == axyomeLite.chats",
+          "group": "navigation@4"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "axyomeLite.openConversation",
+          "when": "view == axyomeLite.chats && viewItem == conversation",
+          "group": "1_open@1"
+        },
+        {
+          "command": "axyomeLite.exportConversation",
+          "when": "view == axyomeLite.chats && viewItem == conversation",
+          "group": "1_open@2"
+        },
+        {
+          "command": "axyomeLite.copyConversation",
+          "when": "view == axyomeLite.chats && viewItem == conversation",
+          "group": "1_open@3"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "axyomeLite.openConversation",
+          "when": "false"
+        },
+        {
+          "command": "axyomeLite.exportConversation",
+          "when": "false"
+        },
+        {
+          "command": "axyomeLite.copyConversation",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Axyome Lite",
+      "properties": {
+        "axyomeLite.export.redactSecrets": {
+          "type": "boolean",
+          "default": true,
+          "description": "Replace secrets (API keys, tokens, JWTs, UUIDs, password=… values) with [REDACTED] in previews, exports and copies."
+        },
+        "axyomeLite.export.footer": {
+          "type": "boolean",
+          "default": true,
+          "description": "Add one line at the end of an export: \"Exported with Axyome Lite · https://axyome.ai\"."
+        },
+        "axyomeLite.extraVsCodeUserDirs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Extra VS Code user folders to search for Copilot chats (portable or unusual installs)."
+        },
+        "axyomeLite.codexHome": {
+          "type": "string",
+          "default": "",
+          "description": "Codex home folder. Empty: $CODEX_HOME, else ~/.codex."
+        },
+        "axyomeLite.dashboard.days": {
+          "type": "number",
+          "default": 30,
+          "minimum": 7,
+          "maximum": 90,
+          "description": "Days shown in the chats-per-day chart of the My chats page. The token line always covers the last 7 days."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "sync": "node scripts/sync-xm-core.mjs",
+    "sync:check": "node scripts/sync-xm-core.mjs --check",
+    "fixtures": "node scripts/make-fixtures.mjs",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit --strict --module commonjs --target ES2022 --lib ES2022 --types node,vscode --esModuleInterop --skipLibCheck --resolveJsonModule --forceConsistentCasingInFileNames src/extension.ts src/cli.ts test/*.test.ts",
+    "test": "vitest run",
+    "package": "npm run sync:check && npm run build && vsce package --no-dependencies --allow-unused-files-pattern",
+    "export-public": "node scripts/export-public.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "1.90.0",
+    "@vscode/vsce": "^2.22.0",
+    "esbuild": "^0.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^2.0.0"
+  }
+}

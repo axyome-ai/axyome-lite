@@ -1,0 +1,7 @@
+# Build output and dependencies
+node_modules/
+dist/
+*.vsix
+
+# Test fixtures are data the tests need (keep them even where *.json is ignored)
+!test/fixtures/*.json

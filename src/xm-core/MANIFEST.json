@@ -1,0 +1,72 @@
+{
+  "generatedBy": "scripts/sync-xm-core.mjs",
+  "sourceRoot": "Axyome XM src",
+  "sourceCommit": "896096ca68a0580feb3b48f70db730909ee49f42",
+  "files": [
+    {
+      "path": "capture/claude-code-parser.ts",
+      "sourceSha256": "47ab7089526806600480cff96edd142c7851689a4179f9468061e4f6ed0752f0",
+      "outputSha256": "bee6b3742cd79ffaa30108bd6b48569de1867cb8a6631be13845992c789d91de"
+    },
+    {
+      "path": "capture/codex/codex-commands.ts",
+      "sourceSha256": "5fd7cfe5b5ad299ded54505120caeafac64c58c3762dc01e35fb3c28474a5334",
+      "outputSha256": "289089e0aa2904bd99c8d4050a0eb215b910d44792b5fddbdfedb92211367604"
+    },
+    {
+      "path": "capture/codex/codex-dialect.ts",
+      "sourceSha256": "c937bf4cbb40a13e6d4d77e4587c74031a25eef49a3a6072a9e755e93629209c",
+      "outputSha256": "cd15ee1c7ff2d0979e72370102ce724ac1f27818b487d857da497822c9b242ac"
+    },
+    {
+      "path": "capture/codex/codex-discovery.ts",
+      "sourceSha256": "9e69372e8649c7cebd34bbe28b81821336191bef34dfa5c68785a03db9e70fc4",
+      "outputSha256": "eadbd88b34341ca125dbe99c76f6b0ea6377400b9e45a4e72c099422d8c01eb4"
+    },
+    {
+      "path": "capture/codex/codex-fs.ts",
+      "sourceSha256": "04aa684efff3f2ad1709018028d12bc88e429692efc2149e0d5b3294dc8f254c",
+      "outputSha256": "5d527fb17ca76f29f52fe9b13a2718394091e405d008e49c27964e90253a1225"
+    },
+    {
+      "path": "capture/codex/codex-home.ts",
+      "sourceSha256": "4b04a20fd4af4baa510325ee87eb1f7da2f30c89eabbff928b3e2551864e9b1e",
+      "outputSha256": "745165c036fa27ed48e28ff13b733cb6bb64fd24f3f16cf87f4ae4b9a0813674"
+    },
+    {
+      "path": "capture/codex/codex-parser.ts",
+      "sourceSha256": "fd8b97a53ca2a45b4154a919020d6c24573c73538585739be7db69a6f557139f",
+      "outputSha256": "ff98b521a6ab0e31c20b4439d2ac864034fe4914c67eb0b9ddc3eecf8e0875aa"
+    },
+    {
+      "path": "capture/codex/codex-patch.ts",
+      "sourceSha256": "ff7a8c421fd8d147206d5247e4b5fcc113ea92f052bb2e3d64b5cfb7bdc98efc",
+      "outputSha256": "9db78fd8c130e99f72ee18dd3d6fdecb851174ed0c312dfeb1d0c11003134d96"
+    },
+    {
+      "path": "capture/codex/codex-redact.ts",
+      "sourceSha256": "2765277be9c71171933fc04b0afab4f9958cccb060f2acf4a57a4431177d7a00",
+      "outputSha256": "313e45873bd3ef5ca88e0870f585b99bb2e23e91d199e50bd09e7f38d6d50669"
+    },
+    {
+      "path": "types/claude-code.ts",
+      "sourceSha256": "ea3125b05dc8158ce09d590ff3714dcddf65a213c5a6a9e5fce03313ace03026",
+      "outputSha256": "d1f207fc2457d8e6adbe606badbb90191b2c2b0bc46f1a9b241c6be81556547c"
+    },
+    {
+      "path": "types/codex.ts",
+      "sourceSha256": "30a5aba9a44537b135e0bebeee861e6f19f518afa462a489ab344f4626911274",
+      "outputSha256": "8f5a2efd66c099f3e056dd2ccb4e9fe4ead316889082b193b6ad667fc51b26ea"
+    },
+    {
+      "path": "utils/jsonl-session-parser.ts",
+      "sourceSha256": "4a462a4503e562f3b72a5e2cdd99e0da63c98e27e5bd0ef2ab2a3e1784babb1b",
+      "outputSha256": "6e60b021acc7a8a51f5a1f7bd09f46b13ff49d7c20742cb7b101db301255d436"
+    },
+    {
+      "path": "utils/session-markdown-generator.ts",
+      "sourceSha256": "4b7737bb90c831aa96b56acdd34321415306741ba779bc853dc6eb3e3bbfe84d",
+      "outputSha256": "849db2b22dd6c7e7f663dbcac1b716bc483d9b52951399c28f84b2ad58b3e5a0"
+    }
+  ]
+}
