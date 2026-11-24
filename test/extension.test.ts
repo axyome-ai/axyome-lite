@@ -1,4 +1,4 @@
-/** X-1…X-6: activation, tree, preview, export and the XM hand-off, with the recording vscode mock. */
+/** X-1…X-7: activation, tree, preview, export and the XM hand-off, with the recording vscode mock. */
 import * as fs from 'fs';
 import * as path from 'path';
 import { describe, expect, it } from 'vitest';
@@ -9,7 +9,11 @@ import { ChatsTreeProvider, type ChatNode } from '../src/vscode/chats-tree';
 import { ConversationDocumentProvider } from '../src/vscode/preview';
 import { maybeShowXmHint, xmHandoff } from '../src/vscode/xm-handoff';
 import { createMemento, createVscodeMock } from './__mocks__/vscode';
-import { tmpDir } from './helpers';
+import { discoverAll } from '../src/locate';
+import { peekSession } from '../src/read';
+import { readHead } from '../src/read/line-stream';
+import { escapeHtml } from '../src/vscode/dashboard';
+import { makeTmpHome, tmpDir } from './helpers';
 
 type Api = typeof vscodeTypes;
 const asApi = (m: unknown): Api => m as Api;
@@ -83,5 +87,33 @@ describe('extension', () => {
         expect(await maybeShowXmHint(asApi(m), state as unknown as vscodeTypes.Memento)).toBe(true);
         expect(await maybeShowXmHint(asApi(m), state as unknown as vscodeTypes.Memento)).toBe(false);
         expect(m.calls.filter((x) => x.name === 'window.showInformationMessage')).toHaveLength(1);
+    });
+
+    it('X-7 (#348) the My chats page names the largest chats by title, as the Chats view does', async () => {
+        const h = makeTmpHome();
+        const saved = { HOME: process.env.HOME, CODEX_HOME: process.env.CODEX_HOME };
+        process.env.HOME = h.home;
+        delete process.env.CODEX_HOME;
+        try {
+            const m = createVscodeMock();
+            activate(ctx() as unknown as vscodeTypes.ExtensionContext, asApi(m));
+            await m.commands.executeCommand('axyomeLite.showDashboard');
+            const html = m.panels[m.panels.length - 1].html;
+            const list = html.slice(html.indexOf('<p>Largest:</p>'), html.indexOf('</ul>'));
+            const shown = [...list.matchAll(/<li><a href="[^"]*">([^<]*)<\/a> \(([^,]+),/g)].map((x) => ({ text: x[1], assistant: x[2] }));
+            expect(shown.map((s) => s.assistant)).toEqual(expect.arrayContaining(['Claude Code', 'Copilot']));
+            const d = await discoverAll({ platform: 'linux', home: h.home, env: {} });
+            // Each row: the indexed title, else the head-peek title, else (no title anywhere) the 8-character short ID.
+            const label = (s: SessionRef): string => escapeHtml(s.title ?? peekSession(s, (f) => readHead(f, 64 * 1024)).title ?? s.id.split(':')[1].slice(0, 8));
+            const expected = new Set(d.sessions.map(label));
+            for (const s of shown) {
+                expect(expected.has(s.text)).toBe(true);
+                expect(s.text).not.toMatch(/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}/i);
+            }
+            expect(shown.find((s) => s.assistant === 'Claude Code')?.text).toBe('Build script walkthrough');
+            expect(shown.find((s) => s.assistant === 'Copilot')?.text).toBe('How do I read a file in Node?');
+        } finally {
+            for (const [k, v] of Object.entries(saved)) { if (v === undefined) { delete process.env[k]; } else { process.env[k] = v; } }
+        }
     });
 });

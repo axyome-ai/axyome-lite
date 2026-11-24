@@ -119,7 +119,12 @@ export function activate(context: vscode.ExtensionContext, api: typeof vscode = 
             const panel = DashboardPanel.show(api);
             const d = await refresh();
             const stats = collectChatStats(d.sessions, { days: settings(api).days });
-            const titleOf = (r: { id: string; title?: string }): string | undefined => r.title;
+            // Same titles as the Chats view: the indexed title, else the head peek (only the few "Largest" rows ask).
+            const byId = new Map(d.sessions.map((s) => [s.id, s]));
+            const titleOf = (r: { id: string; title?: string }): string | undefined => {
+                const ref = byId.get(r.id);
+                return ref ? tree.titleOf(ref) : r.title;
+            };
             panel.setHtml(renderDashboardHtml(stats, 'counting', titleOf));
             const signal = { get aborted(): boolean { return panel.isDisposed; } };
             const tokens = await sumRecentTokens(d.sessions, { signal, claudeSubagentFiles: d.claudeSubagents });

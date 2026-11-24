@@ -41,6 +41,11 @@ export class ChatsTreeProvider implements vscodeTypes.TreeDataProvider<ChatNode>
         return this.sessions;
     }
 
+    /** The title shown for a conversation: the indexed one, else the head peek (cached). */
+    titleOf(ref: SessionRef): string | undefined {
+        return ref.title ?? this.peekOf(ref).title;
+    }
+
     private peekOf(ref: SessionRef): Peek {
         let p = this.peeks.get(ref.id);
         if (!p) { p = this.peek(ref); this.peeks.set(ref.id, p); }

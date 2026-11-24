@@ -1,9 +1,9 @@
-/** L-1…L-7: locators read metadata only and stay inside their roots. */
+/** L-1…L-9: locators read metadata only (Codex: its first line, for the folder) and stay inside their roots. */
 import * as fs from 'fs';
 import * as path from 'path';
 import { describe, expect, it } from 'vitest';
 import { findClaudeSessions } from '../src/locate/claude';
-import { findCodexSessions } from '../src/locate/codex';
+import { CODEX_META_BYTES, codexProjectOf, findCodexSessions } from '../src/locate/codex';
 import { findCopilotSessions, workspaceName } from '../src/locate/copilot';
 import { EXPECTED, makeTmpHome, tmpDir } from './helpers';
 
@@ -64,5 +64,23 @@ describe('locators', () => {
         expect(findCopilotSessions(path.join(empty, 'nope'))).toEqual([]);
         expect(findClaudeSessions(path.join(empty, 'nope'))).toEqual([]);
         await expect(findCodexSessions(path.join(empty, 'nope'))).resolves.toEqual([]);
+    });
+
+    it('L-8 (#347) Codex rollouts carry the folder of session_meta.cwd', async () => {
+        const h = makeTmpHome();
+        const refs = await findCodexSessions(h.codexHome);
+        expect(refs.map((r) => r.project)).toEqual(['demo-repo']);
+    });
+
+    it('L-9 (#347) codexProjectOf reads the first line of the first 16 KB only', () => {
+        const asked: number[] = [];
+        const reader = (text: string) => (_f: string, max: number): string => { asked.push(max); return text.slice(0, max); };
+        const meta = (cwd: string): string => JSON.stringify({ type: 'session_meta', payload: { id: 'x', cwd } });
+        expect(codexProjectOf('f', reader(`${meta('C:\\work\\shop\\')}\n{}\n`))).toBe('shop');
+        expect(codexProjectOf('f', reader(`{"type":"session_meta","payload":{}}\n${meta('/home/a/other')}\n`))).toBeUndefined();
+        const late = JSON.stringify({ type: 'session_meta', payload: { pad: 'x'.repeat(CODEX_META_BYTES), cwd: '/home/a/late' } });
+        expect(codexProjectOf('f', reader(`${late}\n`))).toBeUndefined();
+        expect(codexProjectOf(path.join(tmpDir(), 'missing.jsonl'))).toBeUndefined();
+        expect(asked).toEqual([CODEX_META_BYTES, CODEX_META_BYTES, CODEX_META_BYTES]);
     });
 });

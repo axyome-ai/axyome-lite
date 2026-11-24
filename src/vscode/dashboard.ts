@@ -56,7 +56,8 @@ export function renderDashboardHtml(stats: ChatStats, tokens: RecentTokens | 'co
     const counts = ASSISTANTS.map((a) => `${escapeHtml(ASSISTANT_LABEL[a])} ${stats.perAssistant[a]}`).join(' · ');
     const storage = ASSISTANTS.map((a) => `${escapeHtml(ASSISTANT_LABEL[a])} ${formatBytes(stats.storage[a])}`).join(' · ');
     const largest = stats.largest.map((l) => {
-        const t = titleOf(l) ?? l.id.split(':')[1] ?? l.id;
+        // No title anywhere: the short ID, as in the Chats view.
+        const t = titleOf(l) ?? l.id.split(':')[1]?.slice(0, 8) ?? l.id;
         return `<li><a href="${cmd('axyomeLite.openConversation', [l.id])}">${escapeHtml(t)}</a> (${escapeHtml(ASSISTANT_LABEL[l.assistant])}, ${formatBytes(l.size)})</li>`;
     }).join('');
     return `${head}<h2>My chats <span class="note">last ${stats.days} days</span></h2>`
