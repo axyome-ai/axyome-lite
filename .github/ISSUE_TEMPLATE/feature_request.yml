@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest an improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea. A concrete situation helps us most.
+
+        Axyome Lite stays small and local: it finds, opens and exports chats. Searching every chat, replaying your coding days and giving your assistant a memory are what [Axyome XM](https://marketplace.visualstudio.com/items?itemName=axyome-ai.axyome-ai-xm) does.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The situation and what gets in the way today
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would help?
+      description: How you would like it to work
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Chats view
+        - Open / preview
+        - Export / copy / redaction
+        - My chats page
+        - Command line
+        - Another assistant or editor
+        - Documentation
+        - Other

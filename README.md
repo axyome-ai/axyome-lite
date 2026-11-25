@@ -3,9 +3,21 @@
   <p><strong>Find, open and export your Copilot, Claude Code and Codex chats. Free and open source.</strong></p>
   <p>
     <a href="https://marketplace.visualstudio.com/items?itemName=axyome-ai.axyome-lite"><img src="https://img.shields.io/badge/Install-VS%20Code%20Marketplace-007ACC?style=for-the-badge" alt="Install from the VS Code Marketplace" height="36" /></a>
+    <a href="https://open-vsx.org/extension/axyome-ai/axyome-lite"><img src="https://img.shields.io/badge/Install-Open%20VSX-A60EE5?style=for-the-badge" alt="Install from Open VSX (Cursor, Windsurf, VSCodium)" height="36" /></a>
   </p>
   <p>Local only · no account · nothing sent anywhere · MIT licence</p>
 </div>
+
+![The Chats view in the Explorer: Copilot, Claude Code and Codex chats grouped by project, newest first](docs/images/01-chats-view.png)
+
+## Get started
+
+| | |
+|---|---|
+| [Install](docs/install.md) | VS Code, Cursor, Windsurf, VSCodium, or the command line |
+| [First five minutes](docs/onboarding.md) | find your chats, open one, export it, see your usage |
+| [Tutorials](docs/tutorials/README.md) | find a lost chat, share a chat safely, back up every chat, see your AI usage |
+| [FAQ](docs/faq.md) | where the files are, privacy, limits |
 
 ---
 
@@ -32,6 +44,20 @@ Axyome Lite finds them for you, on Windows, macOS and Linux.
 
 Exports are complete: long replies are never cut.
 
+## Screenshots
+
+**Open any chat as Markdown**
+
+![A Claude Code chat opened as Markdown, source and preview side by side](docs/images/03-claude-chat-markdown.png)
+
+**Export it with secrets replaced**
+
+![An exported chat: the API key and the password in the chat are replaced with REDACTED](docs/images/08-export-redacted.png)
+
+**My chats: your chats, storage and tokens on one page**
+
+![The My chats page: chats per assistant, chats per day, the largest chats, storage and tokens of the last 7 days](docs/images/05-dashboard.png)
+
 ## Command line
 
 The same features, in a terminal:
@@ -53,7 +79,7 @@ Axyome Lite finds and exports chats. **[Axyome XM](https://marketplace.visualstu
 
 - Axyome Lite only **reads** the chat files listed above. It never changes or deletes them.
 - It makes **no network calls**, has **no telemetry** and needs **no account**.
-- It stores nothing. The only file it writes is the export you choose.
+- It keeps no database, cache or log. The only file it writes is the export you choose. VS Code remembers one setting for it: whether the one-time Axyome XM tip was already shown.
 
 ## Settings
 

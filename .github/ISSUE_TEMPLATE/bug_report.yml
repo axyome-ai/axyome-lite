@@ -1,0 +1,81 @@
+name: Bug report
+description: Something does not work as expected
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please search [existing issues](https://github.com/axyome-ai/axyome-lite/issues) first.
+
+        **Never paste chat text that contains secrets, customer data or private code.** A short, invented example is enough.
+
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where does it happen?
+      options:
+        - VS Code extension
+        - Another editor (Cursor, Windsurf, VSCodium...)
+        - Command line (axyome-lite)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: assistant
+    attributes:
+      label: Which assistant's chats?
+      multiple: true
+      options:
+        - GitHub Copilot
+        - Claude Code
+        - Codex
+        - Not specific to one assistant
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows
+        - macOS
+        - Linux
+    validations:
+      required: true
+
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: "Axyome Lite version (Extensions view, or `axyome-lite --version`) and your editor's version (Help, About)"
+      placeholder: "Axyome Lite 0.1.0, VS Code 1.106.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: The steps, and the exact message if there was one
+      placeholder: |
+        1. Opened the Chats view
+        2. Clicked a Claude Code chat
+        3. Got: "..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: where-report
+    attributes:
+      label: Where are my chats? (optional)
+      description: "The table from **Where are my chats?** or the output of `axyome-lite where`. Replace your user name in the paths if you prefer."
+      render: text

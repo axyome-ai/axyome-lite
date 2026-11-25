@@ -20,8 +20,8 @@ const PKG_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'
 
 /** Top-level entries exported; directories are copied recursively. */
 export const EXPORT_ENTRIES = Object.freeze([
-    'package.json', 'package-lock.json', 'README.md', 'LICENSE', 'CHANGELOG.md', '.gitignore',
-    'resources', 'scripts', 'src', 'test',
+    'package.json', 'package-lock.json', 'README.md', 'LICENSE', 'CHANGELOG.md', 'CONTRIBUTING.md', '.gitignore',
+    '.github', 'docs', 'resources', 'scripts', 'src', 'test',
 ]);
 
 /** Internal process references that must never reach the public repository. */

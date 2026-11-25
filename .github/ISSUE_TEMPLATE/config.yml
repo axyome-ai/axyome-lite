@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Questions and answers
+    url: https://github.com/axyome-ai/axyome-lite/blob/main/docs/faq.md
+    about: Where the files are, privacy, limits
+  - name: Tutorials
+    url: https://github.com/axyome-ai/axyome-lite/blob/main/docs/tutorials/README.md
+    about: Step-by-step guides
