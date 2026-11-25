@@ -73,7 +73,7 @@ npx axyome-lite stats                       chats, storage, tokens of the last 7
 
 ## Want more? Axyome XM
 
-Axyome Lite finds and exports chats. **[Axyome XM](https://marketplace.visualstudio.com/items?itemName=axyome-ai.axyome-ai-xm)** remembers your whole coding history: it searches every chat, replays any coding day, shows your AI usage per model and per hour, and gives Copilot and Claude Code a memory of what you actually did. When Axyome XM is installed, **Search all chats** in Axyome Lite opens it.
+Axyome Lite finds and exports chats. **[Axyome XM](https://marketplace.visualstudio.com/items?itemName=axyome-ai.axyome-ai-xm)** remembers your whole coding history: it records your Copilot, Claude Code and Codex sessions, searches every chat, replays any coding day, shows your AI usage per model and per hour, and gives Copilot and Claude Code a memory of what you actually did. When Axyome XM is installed, **Search all chats** in Axyome Lite opens it.
 
 ## Privacy
 
