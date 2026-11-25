@@ -8,7 +8,7 @@ import * as path from 'path';
 import { ASSISTANT_LABEL, ASSISTANTS, LiteError, type Assistant, type SessionRef } from './model';
 import { discoverAll, storeRoots, whereReportMarkdown, type DiscoverOptions } from './locate';
 import { exportTargetProblem } from './locate/safe-path';
-import { readConversation } from './read';
+import { labelSession, readConversation } from './read';
 import { renderConversationMarkdown } from './render/markdown';
 import { collectChatStats } from './stats/collect';
 import { sumRecentTokens } from './stats/tokens';
@@ -91,12 +91,14 @@ export async function runCli(argv: readonly string[], io: CliIo): Promise<number
             const sinceMs = since ? new Date(`${since}T00:00:00`).getTime() : undefined;
             const d = await discoverAll(io.discover);
             const rows = d.sessions.filter((s) => (!which || s.assistant === which) && (sinceMs === undefined || s.mtimeMs >= sinceMs));
+            // Same title and folder as the Chats view: at most 64 KB read from each listed chat.
+            const labelled = rows.map((s) => ({ s, l: labelSession(s) }));
             if (json) {
-                io.out(`${JSON.stringify(rows.map((s) => ({ id: s.id, assistant: s.assistant, project: s.project ?? null, changed: new Date(s.mtimeMs).toISOString(), size: s.size, title: s.title ?? null, file: s.file })), null, 2)}\n`);
+                io.out(`${JSON.stringify(labelled.map(({ s, l }) => ({ id: s.id, assistant: s.assistant, project: l.project ?? null, changed: new Date(s.mtimeMs).toISOString(), size: s.size, title: l.title ?? null, file: s.file })), null, 2)}\n`);
                 return 0;
             }
-            for (const s of rows) {
-                io.out(`${s.id}\t${new Date(s.mtimeMs).toISOString().slice(0, 16)}\t${s.project ?? '—'}\t${s.title ?? ''}\n`);
+            for (const { s, l } of labelled) {
+                io.out(`${s.id}\t${new Date(s.mtimeMs).toISOString().slice(0, 16)}\t${l.project ?? '—'}\t${l.title ?? ''}\n`);
             }
             return 0;
         }
@@ -128,7 +130,13 @@ export async function runCli(argv: readonly string[], io: CliIo): Promise<number
             const stats = collectChatStats(d.sessions, { days: Number.isFinite(days) ? days : 30, now: io.now });
             const tokens = await sumRecentTokens(d.sessions, { now: io.now, claudeSubagentFiles: d.claudeSubagents });
             if (json) {
-                io.out(`${JSON.stringify({ ...stats, tokens: { hours: tokens.hours, claude: tokens.claude, codex: tokens.codex, copilot: tokens.copilot } }, null, 2)}\n`);
+                const byId = new Map(d.sessions.map((s) => [s.id, s]));
+                const largest = stats.largest.map((r) => {
+                    const ref = byId.get(r.id);
+                    const title = r.title ?? (ref ? labelSession(ref).title : undefined);
+                    return title ? { ...r, title } : r;
+                });
+                io.out(`${JSON.stringify({ ...stats, largest, tokens: { hours: tokens.hours, claude: tokens.claude, codex: tokens.codex, copilot: tokens.copilot } }, null, 2)}\n`);
                 return 0;
             }
             io.out(`Chats: ${ASSISTANTS.map((a) => `${ASSISTANT_LABEL[a]} ${stats.perAssistant[a]}`).join(' · ')}\n`);
@@ -146,8 +154,20 @@ export async function runCli(argv: readonly string[], io: CliIo): Promise<number
     }
 }
 
+/**
+ * End quietly when the reader of our output goes away (`axyome-lite list | head`): EPIPE exits 0, like other
+ * command-line tools. Any other stream error is rethrown.
+ */
+export function guardPipe(stream: Pick<NodeJS.EventEmitter, 'on'>, exit: (code: number) => void): void {
+    stream.on('error', (e: NodeJS.ErrnoException) => {
+        if (e && e.code === 'EPIPE') { exit(0); return; }
+        throw e;
+    });
+}
+
 /* istanbul ignore next: process entry */
 if (require.main === module) {
+    guardPipe(process.stdout, (code) => process.exit(code));
     void runCli(process.argv.slice(2), {
         out: (s) => process.stdout.write(s),
         err: (s) => process.stderr.write(s),

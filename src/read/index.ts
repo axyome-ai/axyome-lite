@@ -69,3 +69,15 @@ export function peekSession(ref: SessionRef, read: (file: string) => string = (f
     const first = codexTurns(cs).find((t) => t.role === 'user')?.text;
     return { title: first ? oneLine(first) : undefined, project: cs.cwd ? path.basename(cs.cwd.replace(/[\\/]+$/, '')) : undefined };
 }
+
+/** Bytes read from the start of a session to find its title: the same as the Chats view. */
+export const PEEK_BYTES = 64 * 1024;
+
+/**
+ * The title and project folder shown for a session, by the Chats view's rules: the indexed title, else the head peek;
+ * for Claude Code the folder name of the session's cwd (the store keeps a slug), else the locator's project.
+ */
+export function labelSession(ref: SessionRef, read: (file: string) => string = (f) => readHead(f, PEEK_BYTES)): Peek {
+    const p = peekSession(ref, read);
+    return { title: p.title, project: ref.assistant === 'claude' ? (p.project ?? ref.project) : ref.project };
+}

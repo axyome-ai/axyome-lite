@@ -46,12 +46,13 @@ gives one entry per chat, newest first:
   "project": "acme-shop",
   "changed": "2026-11-25T13:53:03.165Z",
   "size": 626,
-  "title": null,
+  "title": "How do I debounce a search input in React?",
   "file": "/home/dev/.config/Code/User/workspaceStorage/demo0/chatSessions/7e57da7a-0000-4000-8000-000000000015.json"
 }
 ```
 
-`id` is what `export` needs. `--assistant copilot|claude|codex` keeps one assistant only.
+`id` is what `export` needs; `title` and `project` are the ones the Chats view shows. `--assistant copilot|claude|codex`
+keeps one assistant only. Without `--json`, `list` prints one line per chat: ID, date, folder and title.
 
 ## 4. Export every chat
 
