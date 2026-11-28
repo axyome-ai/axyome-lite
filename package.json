@@ -2,7 +2,7 @@
   "name": "axyome-lite",
   "displayName": "Axyome Lite — Copilot, Claude Code & Codex Chat History & Export",
   "description": "Find where Copilot, Claude Code and Codex keep your chats, open any chat, export it to Markdown, and see your chats and tokens at a glance. Local only, no account, open source.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "axyome-ai",
   "license": "MIT",
   "icon": "resources/icon-128.png",

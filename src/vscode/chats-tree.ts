@@ -1,11 +1,11 @@
 /**
  * The Chats view. Assistant → project → conversation (newest first).
- * Titles come from a 64 KB head peek of at most PEEK_LIMIT conversations per group; listing itself reads no content.
+ * Titles come from a 64 KB head peek (1 MB for an untitled Codex session, #363) of at most PEEK_LIMIT conversations per
+ * group; listing itself reads no content.
  */
 import type * as vscodeTypes from 'vscode';
 import { ASSISTANT_LABEL, ASSISTANTS, type Assistant, type SessionRef } from '../model';
-import { peekSession, type Peek } from '../read';
-import { readHead } from '../read/line-stream';
+import { peekLabel, type Peek } from '../read';
 
 type Api = Pick<typeof vscodeTypes, 'TreeItem' | 'TreeItemCollapsibleState' | 'EventEmitter' | 'ThemeIcon'>;
 
@@ -26,7 +26,7 @@ export class ChatsTreeProvider implements vscodeTypes.TreeDataProvider<ChatNode>
     private readonly emitter: vscodeTypes.EventEmitter<ChatNode | undefined | void>;
     readonly onDidChangeTreeData: vscodeTypes.Event<ChatNode | undefined | void>;
 
-    constructor(private readonly api: Api, private readonly peek: (ref: SessionRef) => Peek = (r) => peekSession(r, (f) => readHead(f, 64 * 1024))) {
+    constructor(private readonly api: Api, private readonly peek: (ref: SessionRef) => Peek = (r) => peekLabel(r)) {
         this.emitter = new api.EventEmitter<ChatNode | undefined | void>();
         this.onDidChangeTreeData = this.emitter.event;
     }

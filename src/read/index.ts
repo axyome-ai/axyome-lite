@@ -74,10 +74,27 @@ export function peekSession(ref: SessionRef, read: (file: string) => string = (f
 export const PEEK_BYTES = 64 * 1024;
 
 /**
+ * Codex 0.171 writes ~88 KB of session meta and developer messages before the first user message, and `codex exec`
+ * writes no session index (#363). An untitled Codex session is read again, up to this many bytes.
+ */
+export const CODEX_PEEK_BYTES = 1024 * 1024;
+
+/**
+ * The head peek used by the Chats view and `list`: the first 64 KB; for an untitled Codex session larger than that,
+ * the first 1 MB. The project found in the first read is kept.
+ */
+export function peekLabel(ref: SessionRef, read: (file: string, maxBytes: number) => string = readHead): Peek {
+    const p = peekSession(ref, (f) => read(f, PEEK_BYTES));
+    if (p.title || ref.assistant !== 'codex' || ref.size <= PEEK_BYTES) { return p; }
+    const more = peekSession(ref, (f) => read(f, CODEX_PEEK_BYTES));
+    return { title: more.title, project: p.project ?? more.project };
+}
+
+/**
  * The title and project folder shown for a session, by the Chats view's rules: the indexed title, else the head peek;
  * for Claude Code the folder name of the session's cwd (the store keeps a slug), else the locator's project.
  */
-export function labelSession(ref: SessionRef, read: (file: string) => string = (f) => readHead(f, PEEK_BYTES)): Peek {
-    const p = peekSession(ref, read);
+export function labelSession(ref: SessionRef, read: (file: string, maxBytes: number) => string = readHead): Peek {
+    const p = peekLabel(ref, read);
     return { title: p.title, project: ref.assistant === 'claude' ? (p.project ?? ref.project) : ref.project };
 }

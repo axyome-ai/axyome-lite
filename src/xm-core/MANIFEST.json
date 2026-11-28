@@ -1,7 +1,7 @@
 {
   "generatedBy": "scripts/sync-xm-core.mjs",
   "sourceRoot": "Axyome XM src",
-  "sourceCommit": "7e11619b9255861c9c5dee9d7053f5b8a35fa939",
+  "sourceCommit": "2f8dafde8d8fe4b8ca1dc200c6507eb4dc27ff3c",
   "files": [
     {
       "path": "capture/claude-code-parser.ts",
@@ -10,8 +10,8 @@
     },
     {
       "path": "capture/codex/codex-commands.ts",
-      "sourceSha256": "30a1a8eb717c0167ab2feb0994b1b4f36146fbcfed0e9aa8277c3b715100711d",
-      "outputSha256": "f0084acd360b104bb773e1ee2b7178a953b0ef2234b5eec3e7d0b9a6be83cc6b"
+      "sourceSha256": "8e4d19360df5ec18663b58a7d1803c8d8ffb9159e86702c3719e561483b44fa4",
+      "outputSha256": "d24efc7b0910987041b99e5ac225641d5741e5603bc4f39545703f835383ee48"
     },
     {
       "path": "capture/codex/codex-dialect.ts",
